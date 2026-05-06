@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SAP Countdown Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #0a1f33, #0f3c5f);
+    color: #fff;
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Top Branding */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 120px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #cfe8ff;
+}
+
+/* Center Logo */
+.logo-center {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.logo-center img {
+    width: 260px;
+    max-width: 60%;
+    opacity: 0.95;
+}
+
+/* Progress Bar Container */
+.progress-container {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Progress Bar Background */
+.progress-bar-bg {
+    width: 100%;
+    height: 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Progress Fill */
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #0096ff, #00c6ff);
+    transition: width 1s linear;
+}
+
+/* Progress Text */
+.progress-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #cfe8ff;
+}
+
+/* Title Section */
+.title {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.title h1 {
+    font-size: 36px;
+    margin: 5px;
+}
+
+.title h2 {
+    font-size: 20px;
+    color: #cfe8ff;
+}
+
+/* KPI Grid */
+.timer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+}
+
+/* Individual KPI Card */
+.timer-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
+}
+
+.timer-box:hover {
+    transform: translateY(-5px);
+}
+
+.value {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.label {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #cfe8ff;
+}
+
+/* Footer Message */
+.footer-message {
+    margin-top: 40px;
+    font-size: 20px;
+    color: #cfe8ff;
+}
+
+/* Subtle top/bottom strip */
+.header-strip,
+.footer-strip {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(270deg, #0096ff, #00c6ff, #0096ff);
+    background-size: 300% 100%;
+    animation: moveStrip 15s linear infinite;
+    opacity: 0.7;
+}
+
+.header-strip { top: 0; }
+.footer-strip { bottom: 0; }
+
+@keyframes moveStrip {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .timer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .timer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .value {
+        font-size: 36px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header-strip"></div>
+<div class="footer-strip"></div>
+
+<div class="logo-center">
+    <img src="vfs logo.png" alt="Company Logo">
+</div>
+
+<div class="title">
+    <h1>SAP S/4 HANA</h1>
+    <h2>Cluster II (Middle East & South Asia) – Go Live</h2>
+</div>
+
+<div class="timer-container">
+
+    <div class="timer-box">
+        <div id="days" class="value">0</div>
+        <div class="label">Days</div>
+    </div>
+
+    <div class="timer-box">
+        <div id="hours" class="value">0</div>
+        <div class="label">Hours</div>
+    </div>
+
+    <div class="timer-box">
+        <div id="minutes" class="value">0</div>
+        <div class="label">Minutes</div>
+    </div>
+
+    <div class="timer-box">
+        <div id="seconds" class="value">0</div>
+        <div class="label">Seconds</div>
+    </div>
+
+</div>
+
+<div id="message" class="footer-message"></div>
+
+<script>
+var startDate = new Date("May 6, 2026 00:00:00").getTime(); // project start (adjust if needed)
+var countdownDate = new Date("August 10, 2026 12:00:00").getTime();
+
+var x = setInterval(function() {
+
+    var now = new Date().getTime();
+    var distance = countdownDate - now;
+    var totalDuration = countdownDate - startDate;
+    var elapsed = now - startDate;
+
+    if (distance < 0) {
+        clearInterval(x);
+
+        document.getElementById("message").innerHTML =
+            "S/4 HANA CLUSTER II IS LIVE NOW";
+
+        document.querySelector(".timer-container").style.display = "none";
+        document.getElementById("progressFill").style.width = "100%";
+        document.getElementById("progressText").innerHTML = "100% Completed";
+        return;
+    }
+
+    // Time calculations
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days;
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+
+    // Progress calculation
+    var progressPercent = (elapsed / totalDuration) * 100;
+    if (progressPercent < 0) progressPercent = 0;
+
+    document.getElementById("progressFill").style.width = progressPercent + "%";
+    document.getElementById("progressText").innerHTML =
+        progressPercent.toFixed(1) + "% Completed";
+
+}, 1000);
+</script>
+
+</body>
+</html>Together We can
