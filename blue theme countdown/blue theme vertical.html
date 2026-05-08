@@ -2,272 +2,289 @@
 <html>
 <head>
 <title>SAP Countdown Dashboard</title>
-
 <style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #0a1f33, #0f3c5f);
-    color: #fff;
-
+    background: linear-gradient(135deg, #08213a, #0b3557);
+    color: white;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-/* Top Branding */
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    box-sizing: border-box;
-}
-
-.logo {
-    width: 120px;
-    height: 40px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #cfe8ff;
-}
-
-/* Center Logo */
-.logo-center {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.logo-center img {
-    width: 260px;
-    max-width: 60%;
-    opacity: 0.95;
-}
-
-/* Progress Bar Container */
-.progress-container {
-    width: 80%;
-    max-width: 800px;
-    margin-top: 30px;
-    text-align: center;
-}
-
-/* Progress Bar Background */
-.progress-bar-bg {
-    width: 100%;
-    height: 14px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Progress Fill */
-.progress-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #0096ff, #00c6ff);
-    transition: width 1s linear;
-}
-
-/* Progress Text */
-.progress-text {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #cfe8ff;
-}
-
-/* Title Section */
-.title {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.title h1 {
-    font-size: 36px;
-    margin: 5px;
-}
-
-.title h2 {
-    font-size: 20px;
-    color: #cfe8ff;
-}
-
-/* KPI Grid */
-.timer-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    margin-top: 40px;
-    padding: 20px;
-    width: 80%;
-    max-width: 1000px;
-}
-
-/* Individual KPI Card */
-.timer-box {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 25px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    transition: transform 0.3s ease;
-}
-
-.timer-box:hover {
-    transform: translateY(-5px);
-}
-
-.value {
-    font-size: 48px;
-    font-weight: bold;
-}
-
-.label {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #cfe8ff;
-}
-
-/* Footer Message */
-.footer-message {
-    margin-top: 40px;
-    font-size: 20px;
-    color: #cfe8ff;
-}
-
-/* Subtle top/bottom strip */
+/* Top + Bottom animated strip */
 .header-strip,
 .footer-strip {
     position: fixed;
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(270deg, #0096ff, #00c6ff, #0096ff);
+    background: linear-gradient(270deg, #00bfff, #00e5ff, #00bfff);
     background-size: 300% 100%;
-    animation: moveStrip 15s linear infinite;
-    opacity: 0.7;
+    animation: moveStrip 10s linear infinite;
+    z-index: 999;
 }
-
 .header-strip { top: 0; }
 .footer-strip { bottom: 0; }
 
 @keyframes moveStrip {
-    0% { background-position: 0% 50%; }
+    0%   { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-    .timer-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* Wrapper for both panels */
+.panels-wrapper {
+    width: 96%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-@media (max-width: 500px) {
-    .timer-container {
-        grid-template-columns: 1fr;
-    }
-
-    .value {
-        font-size: 36px;
-    }
+/* Each dashboard panel */
+.dashboard {
+    width: 100%;
+    padding: 28px 30px;
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(6px);
+    box-shadow:
+        inset 0 0 40px rgba(255,255,255,0.02),
+        0 0 40px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+/* Divider strip between the two panels */
+.middle-strip {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(270deg, #00bfff, #00e5ff, #00bfff);
+    background-size: 300% 100%;
+    animation: moveStrip 10s linear infinite;
+    margin: 10px 0;
+    border-radius: 3px;
+    opacity: 0.6;
+}
+
+/* Left side: logo + title */
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    flex-shrink: 0;
+}
+
+.logo-center img {
+    width: 120px;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.title h1 {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.title h2 {
+    margin-top: 10px;
+    font-size: 26px;
+    color: #d8e9f8;
+    font-weight: 600;
+}
+
+/* Timer boxes */
+.timer-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.timer-box {
+    width: 190px;
+    height: 136px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.4),
+        inset 0 0 15px rgba(255,255,255,0.03);
+    transition: 0.4s ease;
+}
+
+.timer-box:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.value {
+    font-size: 62px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+.label {
+    margin-top: 8px;
+    font-size: 20px;
+    color: #d8e9f8;
+}
+
+/* "Together We can" message */
+.footer-message {
+    font-size: 26px;
+    font-weight: 500;
+    margin-left: 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+@keyframes pulse {
+    0%   { text-shadow: 0 0 0px rgba(255,255,255,0.2); }
+    50%  { text-shadow: 0 0 18px rgba(255,255,255,0.7); }
+    100% { text-shadow: 0 0 0px rgba(255,255,255,0.2); }
+}
+
 </style>
 </head>
-
 <body>
 
 <div class="header-strip"></div>
 <div class="footer-strip"></div>
 
-<div class="logo-center">
-    <img src="vfs logo.png" alt="Company Logo">
+<div class="panels-wrapper">
+
+    <!-- ===== PANEL 1 : M.E & S.A — Go Live Aug 10, 2026 ===== -->
+    <div class="dashboard">
+
+        <div class="left-section">
+            <div class="logo-center">
+                <img src="vfs logo.png" alt="Company Logo">
+            </div>
+            <div class="title">
+                <h1>SAP S4HANA</h1>
+                <h2>Cluster II (M.E &amp; S.A) – Go Live</h2>
+            </div>
+        </div>
+
+        <div class="timer-container" id="timer-panel1">
+            <div class="timer-box">
+                <div class="value" id="p1-days">0</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p1-hours">0</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p1-minutes">0</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p1-seconds">0</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+
+        <div class="footer-message" id="msg1">Together We can</div>
+
+    </div>
+
+    <!-- ===== DIVIDER STRIP ===== -->
+    <div class="middle-strip"></div>
+
+    <!-- ===== PANEL 2 : China — Go Live Oct 11, 2026 ===== -->
+    <div class="dashboard">
+
+        <div class="left-section">
+            <div class="logo-center">
+                <img src="vfs logo.png" alt="Company Logo">
+            </div>
+            <div class="title">
+                <h1>SAP S4HANA</h1>
+                <h2>Cluster II (China) – Go Live</h2>
+            </div>
+        </div>
+
+        <div class="timer-container" id="timer-panel2">
+            <div class="timer-box">
+                <div class="value" id="p2-days">0</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p2-hours">0</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p2-minutes">0</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="timer-box">
+                <div class="value" id="p2-seconds">0</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+
+        <div class="footer-message" id="msg2">Together We can</div>
+
+    </div>
+
 </div>
-
-<div class="title">
-    <h1>SAP S/4 HANA</h1>
-    <h2>Cluster II (Middle East & South Asia) – Go Live</h2>
-</div>
-
-<div class="timer-container">
-
-    <div class="timer-box">
-        <div id="days" class="value">0</div>
-        <div class="label">Days</div>
-    </div>
-
-    <div class="timer-box">
-        <div id="hours" class="value">0</div>
-        <div class="label">Hours</div>
-    </div>
-
-    <div class="timer-box">
-        <div id="minutes" class="value">0</div>
-        <div class="label">Minutes</div>
-    </div>
-
-    <div class="timer-box">
-        <div id="seconds" class="value">0</div>
-        <div class="label">Seconds</div>
-    </div>
-
-</div>
-
-<div id="message" class="footer-message"></div>
 
 <script>
-var startDate = new Date("May 6, 2026 00:00:00").getTime(); // project start (adjust if needed)
-var countdownDate = new Date("August 10, 2026 12:00:00").getTime();
 
-var x = setInterval(function() {
+    // ── Panel 1 target: Aug 10, 2026 12:00 PM ─────────────────────────────
+    var target1 = new Date("August 10, 2026 12:00:00").getTime();
 
-    var now = new Date().getTime();
-    var distance = countdownDate - now;
-    var totalDuration = countdownDate - startDate;
-    var elapsed = now - startDate;
+    // ── Panel 2 target: Oct 11, 2026 12:00 PM ─────────────────────────────
+    var target2 = new Date("October 11, 2026 12:00:00").getTime();
 
-    if (distance < 0) {
-        clearInterval(x);
+    function pad(n) { return n < 10 ? "0" + n : n; }
 
-        document.getElementById("message").innerHTML =
-            "S/4 HANA CLUSTER II IS LIVE NOW";
+    function tick() {
+        var now = new Date().getTime();
 
-        document.querySelector(".timer-container").style.display = "none";
-        document.getElementById("progressFill").style.width = "100%";
-        document.getElementById("progressText").innerHTML = "100% Completed";
-        return;
+        // -------- Panel 1 --------
+        var d1 = target1 - now;
+        if (d1 <= 0) {
+            document.getElementById("timer-panel1").style.display = "none";
+            document.getElementById("msg1").innerHTML = "S4HANA CLUSTER II (M.E & S.A) IS LIVE NOW 🚀";
+        } else {
+            document.getElementById("p1-days").innerHTML    = Math.floor(d1 / 86400000);
+            document.getElementById("p1-hours").innerHTML   = pad(Math.floor((d1 % 86400000) / 3600000));
+            document.getElementById("p1-minutes").innerHTML = pad(Math.floor((d1 % 3600000)  / 60000));
+            document.getElementById("p1-seconds").innerHTML = pad(Math.floor((d1 % 60000)    / 1000));
+        }
+
+        // -------- Panel 2 --------
+        var d2 = target2 - now;
+        if (d2 <= 0) {
+            document.getElementById("timer-panel2").style.display = "none";
+            document.getElementById("msg2").innerHTML = "S4HANA CLUSTER II (CHINA) IS LIVE NOW 🚀";
+        } else {
+            document.getElementById("p2-days").innerHTML    = Math.floor(d2 / 86400000);
+            document.getElementById("p2-hours").innerHTML   = pad(Math.floor((d2 % 86400000) / 3600000));
+            document.getElementById("p2-minutes").innerHTML = pad(Math.floor((d2 % 3600000)  / 60000));
+            document.getElementById("p2-seconds").innerHTML = pad(Math.floor((d2 % 60000)    / 1000));
+        }
     }
 
-    // Time calculations
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    tick(); // fire immediately on load
+    setInterval(tick, 1000);
 
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
-
-    // Progress calculation
-    var progressPercent = (elapsed / totalDuration) * 100;
-    if (progressPercent < 0) progressPercent = 0;
-
-    document.getElementById("progressFill").style.width = progressPercent + "%";
-    document.getElementById("progressText").innerHTML =
-        progressPercent.toFixed(1) + "% Completed";
-
-}, 1000);
 </script>
 
 </body>
-</html>Together We can
+</html>
